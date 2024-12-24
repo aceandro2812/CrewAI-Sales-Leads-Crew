@@ -3,10 +3,10 @@ import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Securely load the API key from environment variables
-os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
+os.environ["GOOGLE_API_KEY"] = "AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk"
 
 # Define the Gemini LLM
-gemini_llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
+gemini_llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp")
 
 # Create a sales agent
 sales_agent = Agent(
