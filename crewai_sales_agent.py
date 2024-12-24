@@ -22,8 +22,36 @@ sales_agent = Agent(
 
 # Example of a task for the sales agent
 research_task = Task(
-    description="""Identify three potential companies that would benefit from our product.
-    Focus on companies in the [target industry] and look for specific pain points our product solves.""",
+    description="""
+    ## Objective:
+    Identify and research three potential companies within a specified target industry that could significantly benefit from our product.
+
+    ## Target Industry:
+    Focus on companies operating in the {target_industry}.
+
+    ## Product:
+    Our product, {product}, offers a unique solution to common industry challenges.
+
+    ## Research Guidelines:
+    For each company, conduct a thorough analysis to identify specific pain points and challenges that our product is designed to address. Consider the following aspects:
+    - **Company Profile:** Size, revenue, market position, and growth trajectory.
+    - **Current Challenges:** Any known issues or areas where the company is struggling or seeking improvement.
+    - **Product-Solution Fit:** How our product's features and capabilities can directly address these challenges and provide tangible benefits.
+
+    ## Output Format:
+    Provide a detailed report for each company, including:
+    - **Company Name:**
+    - **Industry:**
+    - **Pain Points:** A list of identified challenges.
+    - **Solution Fit:** A clear explanation of how our product can solve these pain points.
+    - **Reasoning:** A brief justification for why this company is a good fit for our product.
+
+    ## Constraints:
+    - Focus exclusively on the specified target industry.
+    - Ensure that the identified pain points are relevant to the solutions offered by our product.
+    - Base your research on publicly available information and avoid any confidential or proprietary data.
+
+    This detailed analysis will enable our sales team to tailor their approach and effectively communicate the value proposition of our product to each potential client.""",
     agent=sales_agent
 )
 
@@ -41,5 +69,10 @@ if __name__ == '__main__':
 
     # Execute the tasks using the Crew's kickoff method
     print("\nExecuting the sales process with the crew:")
-    result = sales_crew.kickoff()
+    result = sales_crew.kickoff(
+        inputs={
+            "target_industry": "FinTech",
+            "product": "AI-Driven Fraud Detection System"
+        }
+    )
     print(f"\nSales Process Result:\n{result}")
