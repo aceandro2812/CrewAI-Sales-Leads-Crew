@@ -24,12 +24,10 @@ class SearchTool(BaseTool):
     name: str = "web_search"
     description: str = "Search for real-time information about companies and industries"
     args_schema = SearchToolInput
-    
-    def __init__(self):
-        self.search = DuckDuckGoSearchRun(region="pt-br")
         
     def _run(self, query: str) -> str:
-        return self.search.run(query)
+        search = DuckDuckGoSearchRun(region="pt-br")
+        return search.run(query)
 
 search_tool = SearchTool()
 
