@@ -2,6 +2,7 @@ from crewai import Agent, Task, Crew , Process ,LLM
 import os
 from duckduckgo_search import ddg
 from typing import List, Dict
+from langchain_community.tools import DuckDuckGoSearchRun
 # from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Securely load the API key from environment variables
@@ -15,9 +16,7 @@ gemini_llm  = LLM(
     api_key="AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk"
 )
 
-def search_companies(query: str, num_results: int = 5) -> List[Dict]:
-    results = ddg(query, max_results=num_results)
-    return [{'title': r['title'], 'link': r['link'], 'snippet': r['body']} for r in results]
+search = DuckDuckGoSearchRun()
 
 # Create a sales agent
 sales_agent = Agent(
@@ -27,7 +26,7 @@ sales_agent = Agent(
     and understanding their needs. You are excellent at initiating conversations and
     gathering key information. Focus on understanding the prospect's pain points and how our product can address them.""",
     llm=gemini_llm,
-    tools=[search_companies],
+    tools=[search],
     verbose=True,
     allow_delegation=False
 )
