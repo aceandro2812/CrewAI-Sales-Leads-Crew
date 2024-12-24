@@ -1,3 +1,4 @@
+# AI: refactor this code looking at the crew ai documentation
 import os
 from crewai import Agent
 from langchain_google_genai import ChatGoogleGenerativeAI
