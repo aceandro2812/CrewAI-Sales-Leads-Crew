@@ -52,7 +52,8 @@ research_task = Task(
     - Base your research on publicly available information and avoid any confidential or proprietary data.
 
     This detailed analysis will enable our sales team to tailor their approach and effectively communicate the value proposition of our product to each potential client.""",
-    agent=sales_agent
+    agent=sales_agent,
+    expected_output="A markdown report containing a list of three companies, each with their identified pain points, how the product addresses them, and a justification for why each company is a good fit."
 )
 
 # Create a Crew to manage the agent and tasks
