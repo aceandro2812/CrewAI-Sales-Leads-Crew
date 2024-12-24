@@ -1,4 +1,4 @@
-from crewai import Agent, Task
+from crewai import Agent, Task, Crew
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 
@@ -27,12 +27,19 @@ research_task = Task(
     agent=sales_agent
 )
 
+# Create a Crew to manage the agent and tasks
+sales_crew = Crew(
+    agents=[sales_agent],
+    tasks=[research_task],
+    verbose=2  # You can adjust verbosity for more detailed output
+)
+
 if __name__ == '__main__':
     print("Sales agent created!")
     print(f"Role: {sales_agent.role}")
     print(f"Goal: {sales_agent.goal}")
 
-    # Example of executing a task (you would typically use a Crew to orchestrate tasks)
-    print("\nExecuting a sample research task:")
-    research_result = research_task.execute()
-    print(f"\nResearch Task Result:\n{research_result}")
+    # Execute the tasks using the Crew's kickoff method
+    print("\nExecuting the sales process with the crew:")
+    result = sales_crew.kickoff()
+    print(f"\nSales Process Result:\n{result}")
