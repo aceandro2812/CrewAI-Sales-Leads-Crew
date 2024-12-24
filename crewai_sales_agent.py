@@ -1,6 +1,5 @@
 from crewai import Agent, Task, Crew , Process ,LLM
 import os
-from duckduckgo_search import ddg
 from typing import List, Dict
 from langchain_community.tools import DuckDuckGoSearchRun
 # from langchain_google_genai import ChatGoogleGenerativeAI
@@ -16,7 +15,7 @@ gemini_llm  = LLM(
     api_key="AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk"
 )
 
-search = DuckDuckGoSearchRun()
+search = DuckDuckGoSearchRun(region="pt-br")
 
 # Create a sales agent
 sales_agent = Agent(
