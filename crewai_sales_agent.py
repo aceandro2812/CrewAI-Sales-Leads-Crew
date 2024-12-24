@@ -1,4 +1,4 @@
-from crewai import Agent, Task, Crew
+from crewai import Agent, Task, Crew , Process
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 
@@ -6,7 +6,11 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 os.environ["GOOGLE_API_KEY"] = "AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk"
 
 # Define the Gemini LLM
-gemini_llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp")
+gemini_llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp",
+                           verbose=True,
+                           temperature=0.5,
+                           google_api_key="AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk")
+
 
 # Create a sales agent
 sales_agent = Agent(
@@ -53,14 +57,14 @@ research_task = Task(
 
     This detailed analysis will enable our sales team to tailor their approach and effectively communicate the value proposition of our product to each potential client.""",
     agent=sales_agent,
-    expected_output="A markdown report containing a list of three companies, each with their identified pain points, how the product addresses them, and a justification for why each company is a good fit."
+    expected_output="A markdown report containing a list of three companies, each with their identified pain points, how the product addresses them, and a justification for why each company is a good fit.",
 )
 
 # Create a Crew to manage the agent and tasks
 sales_crew = Crew(
     agents=[sales_agent],
     tasks=[research_task],
-    verbose=2  # You can adjust verbosity for more detailed output
+    process=Process.sequential,
 )
 
 if __name__ == '__main__':
