@@ -1,16 +1,17 @@
-from crewai import Agent, Task, Crew , Process
+from crewai import Agent, Task, Crew , Process ,LLM
 import os
-from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Securely load the API key from environment variables
-os.environ["GOOGLE_API_KEY"] = "AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk"
+# os.environ["GOOGLE_API_KEY"] = "AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk"
 
 # Define the Gemini LLM
-gemini_llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp",
-                           verbose=True,
-                           temperature=0.5,
-                           google_api_key="AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk")
-
+gemini_llm  = LLM(
+    model="openai/gemini-2.0-flash-exp",
+    temperature=0.7,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    api_key="AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk"
+)
 
 # Create a sales agent
 sales_agent = Agent(
