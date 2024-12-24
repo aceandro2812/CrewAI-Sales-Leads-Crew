@@ -15,7 +15,11 @@ gemini_llm  = LLM(
     api_key="AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk"
 )
 
-search = DuckDuckGoSearchRun(region="pt-br")
+search_tool = {
+    "name": "web_search",
+    "description": "Search for real-time information about companies and industries",
+    "func": DuckDuckGoSearchRun(region="pt-br").run
+}
 
 # Create a sales agent
 sales_agent = Agent(
@@ -25,7 +29,7 @@ sales_agent = Agent(
     and understanding their needs. You are excellent at initiating conversations and
     gathering key information. Focus on understanding the prospect's pain points and how our product can address them.""",
     llm=gemini_llm,
-    tools=[search],
+    tools=[search_tool],
     verbose=True,
     allow_delegation=False
 )
