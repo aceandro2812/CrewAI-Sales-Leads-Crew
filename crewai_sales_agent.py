@@ -59,6 +59,7 @@ research_task = Task(
     This detailed analysis will enable our sales team to tailor their approach and effectively communicate the value proposition of our product to each potential client.""",
     agent=sales_agent,
     expected_output="A markdown report containing a list of three companies, each with their identified pain points, how the product addresses them, and a justification for why each company is a good fit.",
+    output_file="sales_research.md"
 )
 
 # Create a Crew to manage the agent and tasks
@@ -77,8 +78,8 @@ if __name__ == '__main__':
     print("\nExecuting the sales process with the crew:")
     result = sales_crew.kickoff(
         inputs={
-            "target_industry": "FinTech",
-            "product": "AI-Driven Fraud Detection System"
+            "target_industry": "Societies and Chartered Accountants in Mumbai Region",
+            "product": "Society Register Management System"
         }
     )
     print(f"\nSales Process Result:\n{result}")
