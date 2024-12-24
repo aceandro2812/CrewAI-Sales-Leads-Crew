@@ -1,7 +1,9 @@
 from crewai import Agent, Task, Crew , Process ,LLM
 import os
 from typing import List, Dict
+from pydantic import BaseModel, Field
 from langchain_community.tools import DuckDuckGoSearchRun
+from crewai.tools import BaseTool
 # from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Securely load the API key from environment variables
@@ -15,11 +17,21 @@ gemini_llm  = LLM(
     api_key="AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk"
 )
 
-search_tool = {
-    "name": "web_search",
-    "description": "Search for real-time information about companies and industries",
-    "func": DuckDuckGoSearchRun(region="pt-br").run
-}
+class SearchToolInput(BaseModel):
+    query: str = Field(..., description="Search query string")
+
+class SearchTool(BaseTool):
+    name = "web_search"
+    description = "Search for real-time information about companies and industries"
+    args_schema = SearchToolInput
+    
+    def __init__(self):
+        self.search = DuckDuckGoSearchRun(region="pt-br")
+        
+    def _run(self, query: str) -> str:
+        return self.search.run(query)
+
+search_tool = SearchTool()
 
 # Create a sales agent
 sales_agent = Agent(
