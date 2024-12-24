@@ -21,8 +21,8 @@ class SearchToolInput(BaseModel):
     query: str = Field(..., description="Search query string")
 
 class SearchTool(BaseTool):
-    name = "web_search"
-    description = "Search for real-time information about companies and industries"
+    name: str = "web_search"
+    description: str = "Search for real-time information about companies and industries"
     args_schema = SearchToolInput
     
     def __init__(self):
