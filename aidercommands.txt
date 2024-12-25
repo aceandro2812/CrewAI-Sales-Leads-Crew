@@ -1,0 +1,6 @@
+//aider with copy paste
+aider --model gemini/gemini-2.0-flash-exp --copy-paste
+//aider normal
+aider --model gemini/gemini-2.0-flash-exp
+//aider browser ui
+aider --model gemini/gemini-2.0-flash-exp --browser
