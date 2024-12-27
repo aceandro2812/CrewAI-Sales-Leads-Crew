@@ -1,4 +1,3 @@
-from docx import Document
 from crewai import Agent, Task, Crew , Process ,LLM
 import os
 from typing import List, Dict
@@ -11,95 +10,14 @@ gemini_llm  = LLM(
     api_key="AIzaSyA6Gd_kJL0g8XCMZXJ-uJwbTDYcac1zqGk"
 )
 
-def analyze_codebase(directory_path: str):
-
-def write_to_docx(filename, documentation):
-    doc = Document()
-    doc.add_heading(f'Documentation for {filename}', level=1)
-    doc.add_paragraph(documentation)
-    doc.save(f'{filename}_documentation.docx')
-
-from crewai_tools import BaseTool
-from typing import Optional
-
-class CodeReadTool(BaseTool):
-    name: str = "Read Code File"
-    description: str = "Reads and returns the content of a specified code file."
-
-    def _run(
-        self,
-        file_path: str,
-        **kwargs
-    ) -> str:
-        """Reads a file and returns its content."""
-        try:
-            with open(file_path, 'r') as f:
-                content = f.read()
-            return content
-        except FileNotFoundError:
-            return f"Error: File '{file_path}' not found."
-        except Exception as e:
-            return f"Error reading file '{file_path}': {e}"
-
-    code_read_tool = CodeReadTool()
-
-    directory_analyzer = Agent(
-        role='Directory Analyzer',
-        goal='Analyze the directory structure and identify all code files.',
-        backstory="""You are an expert in navigating and understanding complex code repositories.
-        You can identify all relevant code files in a directory.""",
-        llm=gemini_llm,
-        verbose=True,
-        allow_delegation=True
-    )
-
-    code_reader = Agent(
-        role='Code Reader',
-        goal='Read and understand the content of individual code files.',
-        backstory="""You are a skilled code analyst capable of understanding the logic,
-        purpose, and functionality of any given code file.""",
-        llm=gemini_llm,
-        tools=[code_read_tool],
-        verbose=True,
-        allow_delegation=True
-    )
-
-    documentation_writer = Agent(
-        role='Documentation Writer',
-        goal='Generate comprehensive documentation for each code file and write it to a Word document.',
-        backstory="""You are a technical writer with a talent for explaining complex
-        technical details in a clear, concise, and understandable manner.""",
-        llm=gemini_llm,
-        verbose=True,
-        allow_delegation=False
-    )
-
-    analyze_directory_task = Task(
-        description=f'Analyze the project directory at {directory_path} to identify all code files.',
-        agent=directory_analyzer,
-        context={'directory_path': directory_path}
-    )
-
-    read_code_task = Task(
-        description='Read the content of each identified code file.',
-        agent=code_reader,
-        context={'directory_path': directory_path}
-    )
-
-    write_documentation_task = Task(
-        description='Generate documentation for each code file and save it as a Word document.',
-        agent=documentation_writer,
-        context={'directory_path': directory_path}
-    )
-
-    crew = Crew(
-        agents=[directory_analyzer, code_reader, documentation_writer],
-        tasks=[analyze_directory_task, read_code_task, write_documentation_task],
-        process=Process.sequential,
-        verbose=2
-    )
-
-    if __name__ == "__main__":
-        directory_to_analyze = "path/to/your/codebase"
-        result = analyze_codebase(directory_to_analyze)
-    return result
+Directory_agent = Agent(
+    role='Codebase Analysis Agent',
+    goal='Identify potential customers and qualify leads for our product using provided information and tools.',
+    backstory="""You are an experienced SDR with a knack for finding the right people
+    and understanding their needs. You are excellent at initiating conversations and
+    gathering key information. Focus on understanding the prospect's pain points and how our product can address them.""",
+    llm=gemini_llm,
+    tools=[search_tool],
+    verbose=True,
+    allow_delegation=False
+)
